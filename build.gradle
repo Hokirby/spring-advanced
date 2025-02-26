@@ -45,4 +45,6 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    // Class Data Sharing 을 위해 설정
+    jvmArgs "-Xshare:off"
 }
