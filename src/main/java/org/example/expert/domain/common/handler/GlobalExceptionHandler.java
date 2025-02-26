@@ -15,7 +15,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidRequestException.class)
-    public ResponseEntity<Map<String, Object>> invalidRequestExceptionException(InvalidRequestException ex) {
+    public ResponseEntity<Map<String, Object>> invalidRequestException(InvalidRequestException ex) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         return getErrorResponse(status, ex.getMessage());
     }
@@ -34,8 +34,8 @@ public class GlobalExceptionHandler {
 
     public ResponseEntity<Map<String, Object>> getErrorResponse(HttpStatus status, String message) {
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("status", status.name());
         errorResponse.put("code", status.value());
+        errorResponse.put("error", status.getReasonPhrase());
         errorResponse.put("message", message);
 
         return new ResponseEntity<>(errorResponse, status);
