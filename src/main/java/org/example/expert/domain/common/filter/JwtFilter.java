@@ -1,4 +1,4 @@
-package org.example.expert.common.filter;
+package org.example.expert.domain.common.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -9,8 +9,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.example.expert.common.config.JwtUtil;
-import org.example.expert.common.exception.AdminPrivilegeException;
+import org.example.expert.domain.common.config.JwtUtil;
+import org.example.expert.domain.common.dto.AuthUser;
+import org.example.expert.domain.common.exception.AdminPrivilegeException;
+import org.example.expert.domain.common.exception.InvalidRequestException;
+import org.example.expert.domain.common.exception.ServerException;
 import org.example.expert.domain.user.enums.UserRole;
 
 import java.io.IOException;
@@ -31,6 +34,13 @@ public class JwtFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+        // 중복 실행 방지
+        if (httpRequest.getAttribute("FILTER_ALREADY_PROCESSED") != null) {
+            chain.doFilter(request, response);
+            return;
+        }
+        httpRequest.setAttribute("FILTER_ALREADY_PROCESSED", true);
+
         String url = httpRequest.getRequestURI();
 
         if (url.startsWith("/auth")) {
@@ -38,15 +48,8 @@ public class JwtFilter implements Filter {
             return;
         }
 
-        String bearerJwt = httpRequest.getHeader("Authorization");
-
-        if (bearerJwt == null) {
-            // 토큰이 없는 경우 400을 반환합니다.
-            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "JWT 토큰이 필요합니다.");
-            return;
-        }
-
-        String jwt = jwtUtil.substringToken(bearerJwt);
+        // Token 검증 및 값 구함
+        String jwt = resolveToken(httpRequest, httpResponse);
 
         try {
             // JWT 유효성 검사와 claims 추출
@@ -55,16 +58,15 @@ public class JwtFilter implements Filter {
                 httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 JWT 토큰입니다.");
                 return;
             }
+            AuthUser authUser = jwtUtil.getAuthUserFromToken(claims);
 
-            UserRole userRole = UserRole.valueOf(claims.get("userRole", String.class));
-
-            httpRequest.setAttribute("userId", Long.parseLong(claims.getSubject()));
-            httpRequest.setAttribute("email", claims.get("email"));
-            httpRequest.setAttribute("userRole", claims.get("userRole"));
+            httpRequest.setAttribute("userId", authUser.getId());
+            httpRequest.setAttribute("email", authUser.getEmail());
+            httpRequest.setAttribute("userRole", authUser.getUserRole());
 
             if (url.startsWith("/admin")) {
                 // 관리자 권한이 없는 경우 403을 반환합니다.
-                if (!UserRole.ADMIN.equals(userRole)) {
+                if (!UserRole.ADMIN.equals(authUser.getUserRole())) {
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
                     throw new AdminPrivilegeException("Access denied: Admin privileges are required");
                 }
@@ -91,5 +93,19 @@ public class JwtFilter implements Filter {
     @Override
     public void destroy() {
         Filter.super.destroy();
+    }
+
+    // Token 검증 및 토근 값 구하는 기능
+    private String resolveToken(HttpServletRequest httpRequest, HttpServletResponse httpResponse) throws IOException {
+        String bearerToken = httpRequest.getHeader("Authorization");
+        if (bearerToken == null) {
+            // 토큰이 없는 경우 400을 반환
+            httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "JWT 토큰이 필요합니다.");
+            throw new ServerException("Not Found Token");
+        }
+        if (bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        throw new InvalidRequestException("Invalid Token");
     }
 }

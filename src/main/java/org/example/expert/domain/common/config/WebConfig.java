@@ -1,4 +1,4 @@
-package org.example.expert.common.config;
+package org.example.expert.domain.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

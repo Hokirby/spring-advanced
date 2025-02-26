@@ -1,7 +1,7 @@
 package org.example.expert.domain.auth.service;
 
 import jakarta.transaction.Transactional;
-import org.example.expert.common.config.PasswordEncoder;
+import org.example.expert.domain.common.config.PasswordEncoder;
 import org.example.expert.domain.auth.dto.request.SigninRequest;
 import org.example.expert.domain.auth.dto.request.SignupRequest;
 import org.example.expert.domain.auth.dto.response.SigninResponse;
