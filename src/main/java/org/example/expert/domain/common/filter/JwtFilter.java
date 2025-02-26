@@ -9,12 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.expert.domain.common.config.AuthUserArgumentResolver;
 import org.example.expert.domain.common.config.JwtUtil;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.AdminPrivilegeException;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.common.exception.ServerException;
 import org.example.expert.domain.user.enums.UserRole;
+import org.springframework.web.context.request.NativeWebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ import java.io.IOException;
 public class JwtFilter implements Filter {
 
     private final JwtUtil jwtUtil;
+    private final AuthUserArgumentResolver authUserArgumentResolver;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -58,15 +62,13 @@ public class JwtFilter implements Filter {
                 httpResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "잘못된 JWT 토큰입니다.");
                 return;
             }
-            AuthUser authUser = jwtUtil.getAuthUserFromToken(claims);
-
-            httpRequest.setAttribute("userId", authUser.getId());
-            httpRequest.setAttribute("email", authUser.getEmail());
-            httpRequest.setAttribute("userRole", authUser.getUserRole());
+            NativeWebRequest webRequest = new ServletWebRequest(httpRequest, httpResponse);
+            AuthUser authUser = (AuthUser) authUserArgumentResolver
+                    .resolveArgument(null, null, webRequest,null);
 
             if (url.startsWith("/admin")) {
                 // 관리자 권한이 없는 경우 403을 반환합니다.
-                if (!UserRole.ADMIN.equals(authUser.getUserRole())) {
+                if (!UserRole.ADMIN.equals(authUser.userRole())) {
                     httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
                     throw new AdminPrivilegeException("Access denied: Admin privileges are required");
                 }
