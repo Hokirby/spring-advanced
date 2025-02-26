@@ -1,20 +1,21 @@
 package org.example.expert.domain.auth.service;
 
 import jakarta.transaction.Transactional;
-import org.example.expert.domain.common.config.PasswordEncoder;
 import org.example.expert.domain.auth.dto.request.SigninRequest;
 import org.example.expert.domain.auth.dto.request.SignupRequest;
 import org.example.expert.domain.auth.dto.response.SigninResponse;
 import org.example.expert.domain.auth.dto.response.SignupResponse;
 import org.example.expert.domain.auth.exception.AuthException;
+import org.example.expert.domain.common.config.PasswordEncoder;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
 import org.example.expert.domain.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @Transactional
 class AuthServiceTest {
 
