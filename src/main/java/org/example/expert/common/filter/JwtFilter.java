@@ -4,13 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import jakarta.servlet.FilterConfig;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.expert.common.config.JwtUtil;
+import org.example.expert.common.exception.AdminPrivilegeException;
 import org.example.expert.domain.user.enums.UserRole;
 
 import java.io.IOException;
@@ -65,8 +65,8 @@ public class JwtFilter implements Filter {
             if (url.startsWith("/admin")) {
                 // 관리자 권한이 없는 경우 403을 반환합니다.
                 if (!UserRole.ADMIN.equals(userRole)) {
-                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "관리자 권한이 없습니다.");
-                    return;
+                    httpResponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+                    throw new AdminPrivilegeException("Access denied: Admin privileges are required");
                 }
                 chain.doFilter(request, response);
                 return;

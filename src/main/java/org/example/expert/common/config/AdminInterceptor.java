@@ -26,8 +26,6 @@ public class AdminInterceptor implements HandlerInterceptor {
         // ADMIN 이 아닌 권한의 유저가 접근할 경우
         if (!"ADMIN".equals(userRole)) {
             logger.warn("Unauthorized access attempt to {} at {}", request.getRequestURI(), LocalDateTime.now());
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
-            throw new AdminPrivilegeException("Access denied: Admin privileges are required");
         }
         // ADMIN 권한의 유저가 접근할 경우
         logger.info("Admin access granted to {} at {}", request.getRequestURI(), LocalDateTime.now());
