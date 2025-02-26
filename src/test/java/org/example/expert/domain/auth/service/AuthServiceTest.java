@@ -46,7 +46,7 @@ class AuthServiceTest {
         SignupResponse signupResponse = authService.signup(signupRequest);
         // then
         assertThat(signupResponse).isNotNull();
-        assertThat(signupResponse.getBearerToken()).isNotBlank();
+        assertThat(signupResponse.bearerToken()).isNotBlank();
         User savedUser = userRepository.findByEmail(email).orElse(null);
         assertThat(savedUser).isNotNull()
                 .matches(s -> s.getEmail().equals(email))
@@ -78,7 +78,7 @@ class AuthServiceTest {
         SigninResponse signinResponse = authService.signin(signinRequest);
         // then
         assertThat(signinResponse).isNotNull();
-        assertThat(signinResponse.getBearerToken()).isNotBlank();
+        assertThat(signinResponse.bearerToken()).isNotBlank();
     }
 
     @Test

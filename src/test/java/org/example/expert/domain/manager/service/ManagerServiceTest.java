@@ -92,8 +92,8 @@ class ManagerServiceTest {
 
         // then
         assertEquals(1, managerResponses.size());
-        assertEquals(mockManager.getId(), managerResponses.get(0).getId());
-        assertEquals(mockManager.getUser().getEmail(), managerResponses.get(0).getUser().getEmail());
+        assertEquals(mockManager.getId(), managerResponses.get(0).id());
+        assertEquals(mockManager.getUser().getEmail(), managerResponses.get(0).user().getEmail());
     }
 
     @Test // 테스트코드 샘플
@@ -120,7 +120,7 @@ class ManagerServiceTest {
 
         // then
         assertNotNull(response);
-        assertEquals(managerUser.getId(), response.getUser().getId());
-        assertEquals(managerUser.getEmail(), response.getUser().getEmail());
+        assertEquals(managerUser.getId(), response.user().getId());
+        assertEquals(managerUser.getEmail(), response.user().getEmail());
     }
 }
