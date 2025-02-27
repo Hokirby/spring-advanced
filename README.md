@@ -51,7 +51,7 @@
 
 어드민 사용자만 접근할 수 있는 특정 API에는 접근할 때마다 접근 로그를 기록
 
-+ 관리자 권한의 사용자만 접근할 수 있는 메서드
++ 관리자 권한의 사용자만 접근할 수 있는 메서드<br>
 CommentAdminController 클래스의 deleteComment()<br>
 UserAdminController 클래스의 changeUserRole()
 
@@ -73,21 +73,21 @@ AOP<br>
 
 ### 5. 주요 commit
 
-1. [1-1 Early Return](#https://github.com/Hokirby/spring-advanced/commit/50fd80c1a28f7dbdd28d386375e7b303fac6776b)<br>
-[1-2 avoid if-else](#https://github.com/Hokirby/spring-advanced/commit/8382c95e1dbe0cdb530df200969a011ea9e896e4)<br>
-[1-3 validation](#https://github.com/Hokirby/spring-advanced/commit/3c9297f41ce216be128cee0358de223e3ba287c2)
+1. [1-1 Early Return](https://github.com/Hokirby/spring-advanced/commit/50fd80c1a28f7dbdd28d386375e7b303fac6776b)<br>
+[1-2 avoid if-else](https://github.com/Hokirby/spring-advanced/commit/8382c95e1dbe0cdb530df200969a011ea9e896e4)<br>
+[1-3 validation](https://github.com/Hokirby/spring-advanced/commit/3c9297f41ce216be128cee0358de223e3ba287c2)
 
-2. [2 resolve N+1 error](#https://github.com/Hokirby/spring-advanced/commit/4f0aab619d5f7c343eb6138813c37c79128dc827)
+2. [2 resolve N+1 error](https://github.com/Hokirby/spring-advanced/commit/4f0aab619d5f7c343eb6138813c37c79128dc827)
 
-3. [3-1 correct test code error](#https://github.com/Hokirby/spring-advanced/commit/3a77522be9cfe867b1bed57d29f7708e1840b0d0)<br>
-[3-2-1 correct test code error](#https://github.com/Hokirby/spring-advanced/commit/e1e21751bb86e6297c78f52459fbf7c37b93de14)<br>
-[3-2-2 correct test code error](#https://github.com/Hokirby/spring-advanced/commit/1a01607b35107bd3c016cc721938013020dd3345)<br>
-[3-2-3 correct test code error](#https://github.com/Hokirby/spring-advanced/commit/3836cfc404c3f65da8f6987c95b1d1dccb5692bf)
+3. [3-1 correct test code error](https://github.com/Hokirby/spring-advanced/commit/3a77522be9cfe867b1bed57d29f7708e1840b0d0)<br>
+[3-2-1 correct test code error](https://github.com/Hokirby/spring-advanced/commit/e1e21751bb86e6297c78f52459fbf7c37b93de14)<br>
+[3-2-2 correct test code error](https://github.com/Hokirby/spring-advanced/commit/1a01607b35107bd3c016cc721938013020dd3345)<br>
+[3-2-3 correct test code error](https://github.com/Hokirby/spring-advanced/commit/3836cfc404c3f65da8f6987c95b1d1dccb5692bf)
 
-4. [4 add intercepter with API logging](#https://github.com/Hokirby/spring-advanced/commit/8509abe9f78ebce08ef5659211a3faaa9c5bc1f0)<br>
-[4 remove duplicate path resolution logic](#https://github.com/Hokirby/spring-advanced/commit/c076ea002a9e56e3351bd6581cc327e3ba84c43c)
+4. [4 add intercepter with API logging](https://github.com/Hokirby/spring-advanced/commit/8509abe9f78ebce08ef5659211a3faaa9c5bc1f0)<br>
+[4 remove duplicate path resolution logic](https://github.com/Hokirby/spring-advanced/commit/c076ea002a9e56e3351bd6581cc327e3ba84c43c)
 
-5. [5 inject AuthUserArgumentResolver dependency](#https://github.com/Hokirby/spring-advanced/commit/a89ad141fc094b67ea0b2d18f1b72d9bdfe3d439)<br>
-[5. refactor](#https://github.com/Hokirby/spring-advanced/commit/175b9348c90a75bff50c71aed7e8d6a22146e417)
+5. [5 inject AuthUserArgumentResolver dependency](https://github.com/Hokirby/spring-advanced/commit/a89ad141fc094b67ea0b2d18f1b72d9bdfe3d439)<br>
+[5. refactor](https://github.com/Hokirby/spring-advanced/commit/175b9348c90a75bff50c71aed7e8d6a22146e417)
 
-6. [6 add test code for membership and login functions](#https://github.com/Hokirby/spring-advanced/commit/0169ee20038249646920716f3996c25abdd8f0de)
+6. [6 add test code for membership and login functions](https://github.com/Hokirby/spring-advanced/commit/0169ee20038249646920716f3996c25abdd8f0de)
